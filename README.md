@@ -4,21 +4,21 @@
 
 [npm]: https://img.shields.io/npm/v/@anthropic-ai/claude-code.svg?style=flat-square
 
-Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows -- all through natural language commands. Use it in your terminal, IDE, or tag @claude on Github.
+Claude Code는 터미널에서 실행되며, 코드베이스를 이해하고, 일상적인 작업 실행, 복잡한 코드 설명, git 워크플로 처리를 통해 더 빠르게 코딩할 수 있도록 도와주는 에이전틱 코딩 도구입니다 -- 모두 자연어 명령을 통해 가능합니다. 터미널, IDE에서 사용하거나 GitHub에서 @claude를 태그하세요.
 
-**Learn more in the [official documentation](https://code.claude.com/docs/en/overview)**.
+**[공식 문서](https://code.claude.com/docs/en/overview)에서 자세히 알아보세요**.
 
 <img src="./demo.gif" />
 
-## Get started
+## 시작하기
 > [!NOTE]
-> Installation via npm is deprecated. Use one of the recommended methods below.
+> npm을 통한 설치는 더 이상 사용되지 않습니다. 아래의 권장 방법 중 하나를 사용하세요.
 
-For more installation options, uninstall steps, and troubleshooting, see the [setup documentation](https://code.claude.com/docs/en/setup).
+더 많은 설치 옵션, 제거 단계 및 문제 해결은 [설정 문서](https://code.claude.com/docs/en/setup)를 참조하세요.
 
-1. Install Claude Code:
+1. Claude Code 설치:
 
-    **MacOS/Linux (Recommended):**
+    **MacOS/Linux (권장):**
     ```bash
     curl -fsSL https://claude.ai/install.sh | bash
     ```
@@ -28,7 +28,7 @@ For more installation options, uninstall steps, and troubleshooting, see the [se
     brew install --cask claude-code
     ```
 
-    **Windows (Recommended):**
+    **Windows (권장):**
     ```powershell
     irm https://claude.ai/install.ps1 | iex
     ```
@@ -38,35 +38,35 @@ For more installation options, uninstall steps, and troubleshooting, see the [se
     winget install Anthropic.ClaudeCode
     ```
 
-    **NPM (Deprecated):**
+    **NPM (더 이상 사용되지 않음):**
     ```bash
     npm install -g @anthropic-ai/claude-code
     ```
 
-2. Navigate to your project directory and run `claude`.
+2. 프로젝트 디렉토리로 이동하여 `claude`를 실행하세요.
 
-## Plugins
+## 플러그인
 
-This repository includes several Claude Code plugins that extend functionality with custom commands and agents. See the [plugins directory](./plugins/README.md) for detailed documentation on available plugins.
+이 저장소에는 맞춤 명령과 에이전트로 기능을 확장하는 여러 Claude Code 플러그인이 포함되어 있습니다. 사용 가능한 플러그인에 대한 자세한 문서는 [플러그인 디렉토리](./plugins/README.md)를 참조하세요.
 
-## Reporting Bugs
+## 버그 보고
 
-We welcome your feedback. Use the `/bug` command to report issues directly within Claude Code, or file a [GitHub issue](https://github.com/anthropics/claude-code/issues).
+피드백을 환영합니다. Claude Code 내에서 `/bug` 명령을 사용하여 이슈를 직접 보고하거나 [GitHub 이슈](https://github.com/anthropics/claude-code/issues)를 제출하세요.
 
-## Connect on Discord
+## Discord에서 연결하기
 
-Join the [Claude Developers Discord](https://anthropic.com/discord) to connect with other developers using Claude Code. Get help, share feedback, and discuss your projects with the community.
+[Claude Developers Discord](https://anthropic.com/discord)에 참여하여 Claude Code를 사용하는 다른 개발자들과 연결하세요. 도움을 받고, 피드백을 공유하고, 커뮤니티와 프로젝트에 대해 논의하세요.
 
-## Data collection, usage, and retention
+## 데이터 수집, 사용 및 보존
 
-When you use Claude Code, we collect feedback, which includes usage data (such as code acceptance or rejections), associated conversation data, and user feedback submitted via the `/bug` command.
+Claude Code를 사용하면 피드백을 수집하며, 여기에는 사용 데이터(예: 코드 수락 또는 거절), 관련 대화 데이터, `/bug` 명령을 통해 제출된 사용자 피드백이 포함됩니다.
 
-### How we use your data
+### 데이터 사용 방법
 
-See our [data usage policies](https://code.claude.com/docs/en/data-usage).
+[데이터 사용 정책](https://code.claude.com/docs/en/data-usage)을 참조하세요.
 
-### Privacy safeguards
+### 개인 정보 보호 장치
 
-We have implemented several safeguards to protect your data, including limited retention periods for sensitive information, restricted access to user session data, and clear policies against using feedback for model training.
+민감한 정보에 대한 제한된 보존 기간, 사용자 세션 데이터에 대한 제한된 접근, 모델 학습에 피드백을 사용하지 않는 명확한 정책 등 데이터를 보호하기 위한 여러 장치를 구현했습니다.
 
-For full details, please review our [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) and [Privacy Policy](https://www.anthropic.com/legal/privacy).
+전체 세부 사항은 [상업 서비스 약관](https://www.anthropic.com/legal/commercial-terms) 및 [개인정보 처리방침](https://www.anthropic.com/legal/privacy)을 검토하세요.

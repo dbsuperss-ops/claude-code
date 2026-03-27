@@ -1,62 +1,62 @@
-# Code Review Plugin
+# Code Review 플러그인
 
-Automated code review for pull requests using multiple specialized agents with confidence-based scoring to filter false positives.
+거짓 양성을 필터링하는 신뢰도 기반 점수를 사용하는 여러 특화 에이전트를 이용한 자동화된 풀 리퀘스트 코드 리뷰.
 
-## Overview
+## 개요
 
-The Code Review Plugin automates pull request review by launching multiple agents in parallel to independently audit changes from different perspectives. It uses confidence scoring to filter out false positives, ensuring only high-quality, actionable feedback is posted.
+Code Review 플러그인은 여러 에이전트를 병렬로 실행하여 서로 다른 관점에서 독립적으로 변경사항을 감사함으로써 풀 리퀘스트 리뷰를 자동화합니다. 신뢰도 점수를 사용하여 거짓 양성을 필터링하여 높은 품질의 실행 가능한 피드백만 게시되도록 합니다.
 
-## Commands
+## 명령어
 
 ### `/code-review`
 
-Performs automated code review on a pull request using multiple specialized agents.
+여러 특화 에이전트를 사용하여 풀 리퀘스트에 대한 자동화된 코드 리뷰를 수행합니다.
 
-**What it does:**
-1. Checks if review is needed (skips closed, draft, trivial, or already-reviewed PRs)
-2. Gathers relevant CLAUDE.md guideline files from the repository
-3. Summarizes the pull request changes
-4. Launches 4 parallel agents to independently review:
-   - **Agents #1 & #2**: Audit for CLAUDE.md compliance
-   - **Agent #3**: Scan for obvious bugs in changes
-   - **Agent #4**: Analyze git blame/history for context-based issues
-5. Scores each issue 0-100 for confidence level
-6. Filters out issues below 80 confidence threshold
-7. Outputs review (to terminal by default, or as PR comment with `--comment` flag)
+**수행 작업:**
+1. 리뷰가 필요한지 확인 (닫힌, 초안, 사소한, 또는 이미 리뷰된 PR은 건너뜀)
+2. 저장소에서 관련 CLAUDE.md 가이드라인 파일 수집
+3. 풀 리퀘스트 변경사항 요약
+4. 독립적으로 검토하는 4개의 병렬 에이전트 실행:
+   - **에이전트 #1 & #2**: CLAUDE.md 준수 감사
+   - **에이전트 #3**: 변경사항에서 명백한 버그 스캔
+   - **에이전트 #4**: 컨텍스트 기반 문제에 대한 git blame/히스토리 분석
+5. 각 문제에 대해 0-100 신뢰도 수준 점수 매기기
+6. 80 신뢰도 임계값 이하의 문제 필터링
+7. 리뷰 출력 (기본값은 터미널, `--comment` 플래그 사용 시 PR 댓글로)
 
-**Usage:**
+**사용법:**
 ```bash
 /code-review [--comment]
 ```
 
-**Options:**
-- `--comment`: Post the review as a comment on the pull request (default: outputs to terminal only)
+**옵션:**
+- `--comment`: 리뷰를 풀 리퀘스트에 댓글로 게시 (기본값: 터미널에만 출력)
 
-**Example workflow:**
+**예시 워크플로:**
 ```bash
-# On a PR branch, run locally (outputs to terminal):
+# PR 브랜치에서 로컬로 실행 (터미널에 출력):
 /code-review
 
-# Post review as PR comment:
+# PR 댓글로 리뷰 게시:
 /code-review --comment
 
-# Claude will:
-# - Launch 4 review agents in parallel
-# - Score each issue for confidence
-# - Output issues ≥80 confidence (to terminal or PR depending on flag)
-# - Skip if no high-confidence issues found
+# Claude가 수행:
+# - 4개의 리뷰 에이전트 병렬 실행
+# - 각 문제의 신뢰도 점수 계산
+# - 80 이상 신뢰도의 문제 출력 (플래그에 따라 터미널 또는 PR)
+# - 높은 신뢰도 문제가 없으면 건너뜀
 ```
 
-**Features:**
-- Multiple independent agents for comprehensive review
-- Confidence-based scoring reduces false positives (threshold: 80)
-- CLAUDE.md compliance checking with explicit guideline verification
-- Bug detection focused on changes (not pre-existing issues)
-- Historical context analysis via git blame
-- Automatic skipping of closed, draft, or already-reviewed PRs
-- Links directly to code with full SHA and line ranges
+**기능:**
+- 포괄적인 리뷰를 위한 여러 독립 에이전트
+- 신뢰도 기반 점수로 거짓 양성 감소 (임계값: 80)
+- 명시적 가이드라인 검증을 통한 CLAUDE.md 준수 확인
+- 변경사항에 집중한 버그 감지 (기존 문제 제외)
+- git blame을 통한 히스토리 컨텍스트 분석
+- 닫힌, 초안, 또는 이미 리뷰된 PR 자동 건너뜀
+- 전체 SHA 및 라인 범위를 포함한 코드 직접 링크
 
-**Review comment format:**
+**리뷰 댓글 형식:**
 ```markdown
 ## Code review
 
@@ -75,184 +75,184 @@ https://github.com/owner/repo/blob/abc123.../src/auth.ts#L88-L95
 https://github.com/owner/repo/blob/abc123.../src/utils.ts#L23-L28
 ```
 
-**Confidence scoring:**
-- **0**: Not confident, false positive
-- **25**: Somewhat confident, might be real
-- **50**: Moderately confident, real but minor
-- **75**: Highly confident, real and important
-- **100**: Absolutely certain, definitely real
+**신뢰도 점수:**
+- **0**: 신뢰 없음, 거짓 양성
+- **25**: 다소 신뢰, 실제일 수도 있음
+- **50**: 중간 신뢰, 실제이지만 사소함
+- **75**: 높은 신뢰, 실제이고 중요
+- **100**: 절대적으로 확실, 확실히 실제
 
-**False positives filtered:**
-- Pre-existing issues not introduced in PR
-- Code that looks like a bug but isn't
-- Pedantic nitpicks
-- Issues linters will catch
-- General quality issues (unless in CLAUDE.md)
-- Issues with lint ignore comments
+**필터링되는 거짓 양성:**
+- PR에서 도입되지 않은 기존 문제
+- 버그처럼 보이지만 실제로는 아닌 코드
+- 지나친 사소한 지적
+- 린터가 잡을 문제
+- CLAUDE.md에 없는 일반적인 품질 문제
+- lint ignore 댓글이 있는 문제
 
-## Installation
+## 설치
 
-This plugin is included in the Claude Code repository. The command is automatically available when using Claude Code.
+이 플러그인은 Claude Code 저장소에 포함되어 있습니다. Claude Code 사용 시 명령어가 자동으로 사용 가능합니다.
 
-## Best Practices
+## 모범 사례
 
-### Using `/code-review`
-- Maintain clear CLAUDE.md files for better compliance checking
-- Trust the 80+ confidence threshold - false positives are filtered
-- Run on all non-trivial pull requests
-- Review agent findings as a starting point for human review
-- Update CLAUDE.md based on recurring review patterns
+### `/code-review` 사용
+- 더 나은 준수 확인을 위해 명확한 CLAUDE.md 파일 유지
+- 80+ 신뢰도 임계값을 신뢰하세요 - 거짓 양성이 필터링됩니다
+- 모든 비사소한 풀 리퀘스트에 실행
+- 에이전트 결과를 인간 리뷰의 시작점으로 활용
+- 반복되는 리뷰 패턴을 기반으로 CLAUDE.md 업데이트
 
-### When to use
-- All pull requests with meaningful changes
-- PRs touching critical code paths
-- PRs from multiple contributors
-- PRs where guideline compliance matters
+### 사용 시기
+- 의미 있는 변경사항이 있는 모든 풀 리퀘스트
+- 중요한 코드 경로를 건드리는 PR
+- 여러 기여자의 PR
+- 가이드라인 준수가 중요한 PR
 
-### When not to use
-- Closed or draft PRs (automatically skipped anyway)
-- Trivial automated PRs (automatically skipped)
-- Urgent hotfixes requiring immediate merge
-- PRs already reviewed (automatically skipped)
+### 사용하지 않을 시기
+- 닫힌 또는 초안 PR (어차피 자동으로 건너뜀)
+- 사소한 자동화된 PR (자동으로 건너뜀)
+- 즉각적인 병합이 필요한 긴급 핫픽스
+- 이미 리뷰된 PR (자동으로 건너뜀)
 
-## Workflow Integration
+## 워크플로 통합
 
-### Standard PR review workflow:
+### 표준 PR 리뷰 워크플로:
 ```bash
-# Create PR with changes
-# Run local review (outputs to terminal)
+# 변경사항으로 PR 생성
+# 로컬 리뷰 실행 (터미널에 출력)
 /code-review
 
-# Review the automated feedback
-# Make any necessary fixes
+# 자동화된 피드백 검토
+# 필요한 수정 사항 적용
 
-# Optionally post as PR comment
+# 선택적으로 PR 댓글로 게시
 /code-review --comment
 
-# Merge when ready
+# 준비되면 병합
 ```
 
-### As part of CI/CD:
+### CI/CD의 일부로:
 ```bash
-# Trigger on PR creation or update
-# Use --comment flag to post review comments
+# PR 생성 또는 업데이트 시 트리거
+# 리뷰 댓글 게시를 위해 --comment 플래그 사용
 /code-review --comment
-# Skip if review already exists
+# 리뷰가 이미 존재하면 건너뜀
 ```
 
-## Requirements
+## 요구사항
 
-- Git repository with GitHub integration
-- GitHub CLI (`gh`) installed and authenticated
-- CLAUDE.md files (optional but recommended for guideline checking)
+- GitHub 통합이 있는 Git 저장소
+- GitHub CLI (`gh`) 설치 및 인증
+- CLAUDE.md 파일 (선택적이지만 가이드라인 확인에 권장)
 
-## Troubleshooting
+## 문제 해결
 
-### Review takes too long
+### 리뷰가 너무 오래 걸림
 
-**Issue**: Agents are slow on large PRs
+**문제**: 대용량 PR에서 에이전트가 느림
 
-**Solution**:
-- Normal for large changes - agents run in parallel
-- 4 independent agents ensure thoroughness
-- Consider splitting large PRs into smaller ones
+**해결책**:
+- 대용량 변경사항에는 정상 - 에이전트가 병렬로 실행됨
+- 4개의 독립적인 에이전트가 철저함을 보장
+- 대용량 PR을 더 작은 것으로 분할하는 것을 고려
 
-### Too many false positives
+### 너무 많은 거짓 양성
 
-**Issue**: Review flags issues that aren't real
+**문제**: 리뷰가 실제가 아닌 문제를 표시
 
-**Solution**:
-- Default threshold is 80 (already filters most false positives)
-- Make CLAUDE.md more specific about what matters
-- Consider if the flagged issue is actually valid
+**해결책**:
+- 기본 임계값은 80 (이미 대부분의 거짓 양성을 필터링)
+- 무엇이 중요한지에 대해 CLAUDE.md를 더 구체적으로 만들기
+- 표시된 문제가 실제로 유효한지 고려
 
-### No review comment posted
+### 리뷰 댓글이 게시되지 않음
 
-**Issue**: `/code-review` runs but no comment appears
+**문제**: `/code-review`가 실행되지만 댓글이 나타나지 않음
 
-**Solution**:
-Check if:
-- PR is closed (reviews skipped)
-- PR is draft (reviews skipped)
-- PR is trivial/automated (reviews skipped)
-- PR already has review (reviews skipped)
-- No issues scored ≥80 (no comment needed)
+**해결책**:
+다음을 확인하세요:
+- PR이 닫힌 경우 (리뷰 건너뜀)
+- PR이 초안인 경우 (리뷰 건너뜀)
+- PR이 사소하거나 자동화된 경우 (리뷰 건너뜀)
+- PR에 이미 리뷰가 있는 경우 (리뷰 건너뜀)
+- 80점 이상의 문제가 없는 경우 (댓글 불필요)
 
-### Link formatting broken
+### 링크 형식 오류
 
-**Issue**: Code links don't render correctly in GitHub
+**문제**: 코드 링크가 GitHub에서 올바르게 렌더링되지 않음
 
-**Solution**:
-Links must follow this exact format:
+**해결책**:
+링크는 다음 정확한 형식을 따라야 합니다:
 ```
 https://github.com/owner/repo/blob/[full-sha]/path/file.ext#L[start]-L[end]
 ```
-- Must use full SHA (not abbreviated)
-- Must use `#L` notation
-- Must include line range with at least 1 line of context
+- 전체 SHA를 사용해야 합니다 (축약형 아님)
+- `#L` 표기법을 사용해야 합니다
+- 최소 1줄의 컨텍스트가 있는 라인 범위를 포함해야 합니다
 
-### GitHub CLI not working
+### GitHub CLI가 작동하지 않음
 
-**Issue**: `gh` commands fail
+**문제**: `gh` 명령어 실패
 
-**Solution**:
-- Install GitHub CLI: `brew install gh` (macOS) or see [GitHub CLI installation](https://cli.github.com/)
-- Authenticate: `gh auth login`
-- Verify repository has GitHub remote
+**해결책**:
+- GitHub CLI 설치: `brew install gh` (macOS) 또는 [GitHub CLI 설치](https://cli.github.com/) 참조
+- 인증: `gh auth login`
+- 저장소에 GitHub 리모트가 있는지 확인
 
-## Tips
+## 팁
 
-- **Write specific CLAUDE.md files**: Clear guidelines = better reviews
-- **Include context in PRs**: Helps agents understand intent
-- **Use confidence scores**: Issues ≥80 are usually correct
-- **Iterate on guidelines**: Update CLAUDE.md based on patterns
-- **Review automatically**: Set up as part of PR workflow
-- **Trust the filtering**: Threshold prevents noise
+- **구체적인 CLAUDE.md 파일 작성**: 명확한 가이드라인 = 더 나은 리뷰
+- **PR에 컨텍스트 포함**: 에이전트가 의도를 이해하는 데 도움
+- **신뢰도 점수 사용**: 80점 이상의 문제는 대부분 정확
+- **가이드라인 반복 개선**: 패턴을 기반으로 CLAUDE.md 업데이트
+- **자동으로 리뷰**: PR 워크플로의 일부로 설정
+- **필터링 신뢰**: 임계값이 노이즈를 방지
 
-## Configuration
+## 구성
 
-### Adjusting confidence threshold
+### 신뢰도 임계값 조정
 
-The default threshold is 80. To adjust, modify the command file at `commands/code-review.md`:
+기본 임계값은 80입니다. 조정하려면 `commands/code-review.md`의 명령어 파일을 수정하세요:
 ```markdown
 Filter out any issues with a score less than 80.
 ```
 
-Change `80` to your preferred threshold (0-100).
+`80`을 원하는 임계값 (0-100)으로 변경하세요.
 
-### Customizing review focus
+### 리뷰 포커스 커스터마이징
 
-Edit `commands/code-review.md` to add or modify agent tasks:
-- Add security-focused agents
-- Add performance analysis agents
-- Add accessibility checking agents
-- Add documentation quality checks
+에이전트 작업을 추가하거나 수정하기 위해 `commands/code-review.md`를 편집하세요:
+- 보안 중심 에이전트 추가
+- 성능 분석 에이전트 추가
+- 접근성 확인 에이전트 추가
+- 문서 품질 확인 추가
 
-## Technical Details
+## 기술적 세부 사항
 
-### Agent architecture
-- **2x CLAUDE.md compliance agents**: Redundancy for guideline checks
-- **1x bug detector**: Focused on obvious bugs in changes only
-- **1x history analyzer**: Context from git blame and history
-- **Nx confidence scorers**: One per issue for independent scoring
+### 에이전트 아키텍처
+- **2x CLAUDE.md 준수 에이전트**: 가이드라인 확인을 위한 중복성
+- **1x 버그 감지기**: 변경사항에서만 명백한 버그에 집중
+- **1x 히스토리 분석기**: git blame 및 히스토리의 컨텍스트
+- **Nx 신뢰도 점수 계산기**: 독립적인 점수 매기기를 위해 각 문제마다 하나씩
 
-### Scoring system
-- Each issue independently scored 0-100
-- Scoring considers evidence strength and verification
-- Threshold (default 80) filters low-confidence issues
-- For CLAUDE.md issues: verifies guideline explicitly mentions it
+### 점수 시스템
+- 각 문제는 독립적으로 0-100 점수 매기기
+- 증거 강도와 검증을 고려한 점수 매기기
+- 임계값 (기본 80)이 낮은 신뢰도 문제를 필터링
+- CLAUDE.md 문제의 경우: 가이드라인이 명시적으로 언급하는지 확인
 
-### GitHub integration
-Uses `gh` CLI for:
-- Viewing PR details and diffs
-- Fetching repository data
-- Reading git blame and history
-- Posting review comments
+### GitHub 통합
+다음을 위해 `gh` CLI 사용:
+- PR 세부 사항 및 diff 보기
+- 저장소 데이터 가져오기
+- git blame 및 히스토리 읽기
+- 리뷰 댓글 게시
 
-## Author
+## 작성자
 
 Boris Cherny (boris@anthropic.com)
 
-## Version
+## 버전
 
 1.0.0

@@ -1,75 +1,75 @@
-# Feature Development Plugin
+# Feature Development 플러그인
 
-A comprehensive, structured workflow for feature development with specialized agents for codebase exploration, architecture design, and quality review.
+코드베이스 탐색, 아키텍처 설계, 품질 리뷰를 위한 특화 에이전트를 갖춘 기능 개발을 위한 종합적이고 구조화된 워크플로.
 
-## Overview
+## 개요
 
-The Feature Development Plugin provides a systematic 7-phase approach to building new features. Instead of jumping straight into code, it guides you through understanding the codebase, asking clarifying questions, designing architecture, and ensuring quality—resulting in better-designed features that integrate seamlessly with your existing code.
+Feature Development 플러그인은 새로운 기능을 구축하기 위한 체계적인 7단계 접근 방식을 제공합니다. 코드 작성으로 바로 뛰어드는 대신, 코드베이스 이해, 명확화 질문, 아키텍처 설계, 품질 보장 과정을 안내하여 기존 코드와 원활하게 통합되는 더 잘 설계된 기능을 만들어냅니다.
 
-## Philosophy
+## 철학
 
-Building features requires more than just writing code. You need to:
-- **Understand the codebase** before making changes
-- **Ask questions** to clarify ambiguous requirements
-- **Design thoughtfully** before implementing
-- **Review for quality** after building
+기능을 구축하려면 코드 작성 이상이 필요합니다. 다음이 필요합니다:
+- **변경 전 코드베이스 이해**
+- **모호한 요구사항 명확화를 위한 질문**
+- **구현 전 신중한 설계**
+- **구축 후 품질 리뷰**
 
-This plugin embeds these practices into a structured workflow that runs automatically when you use the `/feature-dev` command.
+이 플러그인은 이러한 관행을 `/feature-dev` 명령어 사용 시 자동으로 실행되는 구조화된 워크플로에 내장합니다.
 
-## Command: `/feature-dev`
+## 명령어: `/feature-dev`
 
-Launches a guided feature development workflow with 7 distinct phases.
+7가지 별개의 단계로 구성된 가이드된 기능 개발 워크플로를 실행합니다.
 
-**Usage:**
+**사용법:**
 ```bash
 /feature-dev Add user authentication with OAuth
 ```
 
-Or simply:
+또는 간단히:
 ```bash
 /feature-dev
 ```
 
-The command will guide you through the entire process interactively.
+명령어가 전체 과정을 대화형으로 안내합니다.
 
-## The 7-Phase Workflow
+## 7단계 워크플로
 
-### Phase 1: Discovery
+### 1단계: 발견
 
-**Goal**: Understand what needs to be built
+**목표**: 무엇을 구축해야 하는지 이해
 
-**What happens:**
-- Clarifies the feature request if it's unclear
-- Asks what problem you're solving
-- Identifies constraints and requirements
-- Summarizes understanding and confirms with you
+**수행 작업:**
+- 불명확한 경우 기능 요청 명확화
+- 어떤 문제를 해결하는지 질문
+- 제약 사항과 요구사항 식별
+- 이해한 내용 요약 및 확인
 
-**Example:**
+**예시:**
 ```
-You: /feature-dev Add caching
+User: /feature-dev Add caching
 Claude: Let me understand what you need...
         - What should be cached? (API responses, computed values, etc.)
         - What are your performance requirements?
         - Do you have a preferred caching solution?
 ```
 
-### Phase 2: Codebase Exploration
+### 2단계: 코드베이스 탐색
 
-**Goal**: Understand relevant existing code and patterns
+**목표**: 관련 기존 코드와 패턴 이해
 
-**What happens:**
-- Launches 2-3 `code-explorer` agents in parallel
-- Each agent explores different aspects (similar features, architecture, UI patterns)
-- Agents return comprehensive analyses with key files to read
-- Claude reads all identified files to build deep understanding
-- Presents comprehensive summary of findings
+**수행 작업:**
+- 2-3개의 `code-explorer` 에이전트를 병렬로 실행
+- 각 에이전트가 다른 측면 탐색 (유사한 기능, 아키텍처, UI 패턴)
+- 에이전트가 읽을 주요 파일과 함께 포괄적인 분석 반환
+- Claude가 식별된 모든 파일을 읽어 깊은 이해 구축
+- 결과의 포괄적인 요약 제시
 
-**Agents launched:**
-- "Find features similar to [feature] and trace implementation"
-- "Map the architecture and abstractions for [area]"
-- "Analyze current implementation of [related feature]"
+**실행되는 에이전트:**
+- "[기능]과 유사한 기능을 찾아 구현을 추적"
+- "[영역]의 아키텍처와 추상화를 매핑"
+- "[관련 기능]의 현재 구현을 분석"
 
-**Example output:**
+**예시 출력:**
 ```
 Found similar features:
 - User authentication (src/auth/): Uses JWT tokens, middleware pattern
@@ -82,22 +82,22 @@ Key files to understand:
 - src/config/security.ts:8 - Security configuration
 ```
 
-### Phase 3: Clarifying Questions
+### 3단계: 명확화 질문
 
-**Goal**: Fill in gaps and resolve all ambiguities
+**목표**: 빈 공간을 채우고 모든 모호성 해소
 
-**What happens:**
-- Reviews codebase findings and feature request
-- Identifies underspecified aspects:
-  - Edge cases
-  - Error handling
-  - Integration points
-  - Backward compatibility
-  - Performance needs
-- Presents all questions in an organized list
-- **Waits for your answers before proceeding**
+**수행 작업:**
+- 코드베이스 결과와 기능 요청 검토
+- 불명확한 측면 식별:
+  - 엣지 케이스
+  - 오류 처리
+  - 통합 지점
+  - 하위 호환성
+  - 성능 요구사항
+- 정리된 목록으로 모든 질문 제시
+- **계속 진행하기 전에 답변 대기**
 
-**Example:**
+**예시:**
 ```
 Before designing the architecture, I need to clarify:
 
@@ -108,23 +108,23 @@ Before designing the architecture, I need to clarify:
 5. Error handling: How to handle OAuth failures?
 ```
 
-**Critical**: This phase ensures nothing is ambiguous before design begins.
+**중요**: 이 단계는 설계를 시작하기 전에 아무것도 모호하지 않도록 보장합니다.
 
-### Phase 4: Architecture Design
+### 4단계: 아키텍처 설계
 
-**Goal**: Design multiple implementation approaches
+**목표**: 여러 구현 접근 방식 설계
 
-**What happens:**
-- Launches 2-3 `code-architect` agents with different focuses:
-  - **Minimal changes**: Smallest change, maximum reuse
-  - **Clean architecture**: Maintainability, elegant abstractions
-  - **Pragmatic balance**: Speed + quality
-- Reviews all approaches
-- Forms opinion on which fits best for this task
-- Presents comparison with trade-offs and recommendation
-- **Asks which approach you prefer**
+**수행 작업:**
+- 2-3개의 `code-architect` 에이전트를 다른 포커스로 실행:
+  - **최소 변경**: 최소한의 변경, 최대한의 재사용
+  - **클린 아키텍처**: 유지보수성, 우아한 추상화
+  - **실용적인 균형**: 속도 + 품질
+- 모든 접근 방식 검토
+- 이 작업에 가장 잘 맞는 것에 대한 의견 형성
+- 트레이드오프와 추천사항이 포함된 비교 제시
+- **어떤 접근 방식을 선호하는지 질문**
 
-**Example output:**
+**예시 출력:**
 ```
 I've designed 3 approaches:
 
@@ -155,42 +155,42 @@ excessive refactoring, and fits your existing architecture well.
 Which approach would you like to use?
 ```
 
-### Phase 5: Implementation
+### 5단계: 구현
 
-**Goal**: Build the feature
+**목표**: 기능 구축
 
-**What happens:**
-- **Waits for explicit approval** before starting
-- Reads all relevant files identified in previous phases
-- Implements following chosen architecture
-- Follows codebase conventions strictly
-- Writes clean, well-documented code
-- Updates todos as progress is made
+**수행 작업:**
+- 시작하기 전에 **명시적인 승인 대기**
+- 이전 단계에서 식별된 모든 관련 파일 읽기
+- 선택된 아키텍처에 따라 구현
+- 코드베이스 관습을 엄격하게 따름
+- 깔끔하고 잘 문서화된 코드 작성
+- 진행하면서 todos 업데이트
 
-**Notes:**
-- Implementation only starts after you approve
-- Follows patterns discovered in Phase 2
-- Uses architecture designed in Phase 4
-- Continuously tracks progress
+**참고:**
+- 승인 후에만 구현 시작
+- 2단계에서 발견된 패턴 따르기
+- 4단계에서 설계된 아키텍처 사용
+- 지속적으로 진행 상황 추적
 
-### Phase 6: Quality Review
+### 6단계: 품질 리뷰
 
-**Goal**: Ensure code is simple, DRY, elegant, and functionally correct
+**목표**: 코드가 단순하고, DRY하고, 우아하며, 기능적으로 올바른지 보장
 
-**What happens:**
-- Launches 3 `code-reviewer` agents in parallel with different focuses:
-  - **Simplicity/DRY/Elegance**: Code quality and maintainability
-  - **Bugs/Correctness**: Functional correctness and logic errors
-  - **Conventions/Abstractions**: Project standards and patterns
-- Consolidates findings
-- Identifies highest severity issues
-- **Presents findings and asks what you want to do**:
-  - Fix now
-  - Fix later
-  - Proceed as-is
-- Addresses issues based on your decision
+**수행 작업:**
+- 3개의 `code-reviewer` 에이전트를 다른 포커스로 병렬 실행:
+  - **단순성/DRY/우아함**: 코드 품질 및 유지보수성
+  - **버그/정확성**: 기능적 정확성 및 논리 오류
+  - **관습/추상화**: 프로젝트 표준 및 패턴
+- 결과 통합
+- 가장 심각한 문제 식별
+- **결과 제시 및 원하는 작업 질문**:
+  - 지금 수정
+  - 나중에 수정
+  - 현재 상태로 진행
+- 결정에 따라 문제 해결
 
-**Example output:**
+**예시 출력:**
 ```
 Code Review Results:
 
@@ -207,19 +207,19 @@ All tests pass. Code follows project conventions.
 What would you like to do?
 ```
 
-### Phase 7: Summary
+### 7단계: 요약
 
-**Goal**: Document what was accomplished
+**목표**: 완료된 작업 문서화
 
-**What happens:**
-- Marks all todos complete
-- Summarizes:
-  - What was built
-  - Key decisions made
-  - Files modified
-  - Suggested next steps
+**수행 작업:**
+- 모든 todos를 완료로 표시
+- 다음을 요약:
+  - 구축된 내용
+  - 주요 결정 사항
+  - 수정된 파일
+  - 제안된 다음 단계
 
-**Example:**
+**예시:**
 ```
 Feature Complete: OAuth Authentication
 
@@ -246,167 +246,167 @@ Suggested next steps:
 - Update documentation
 ```
 
-## Agents
+## 에이전트
 
 ### `code-explorer`
 
-**Purpose**: Deeply analyzes existing codebase features by tracing execution paths
+**목적**: 실행 경로를 추적하여 기존 코드베이스 기능을 깊이 분석
 
-**Focus areas:**
-- Entry points and call chains
-- Data flow and transformations
-- Architecture layers and patterns
-- Dependencies and integrations
-- Implementation details
+**포커스 영역:**
+- 진입점 및 호출 체인
+- 데이터 흐름 및 변환
+- 아키텍처 레이어 및 패턴
+- 의존성 및 통합
+- 구현 세부 사항
 
-**When triggered:**
-- Automatically in Phase 2
-- Can be invoked manually when exploring code
+**트리거 시기:**
+- 2단계에서 자동으로
+- 코드 탐색 시 수동으로 호출 가능
 
-**Output:**
-- Entry points with file:line references
-- Step-by-step execution flow
-- Key components and responsibilities
-- Architecture insights
-- List of essential files to read
+**출력:**
+- 파일:라인 참조가 있는 진입점
+- 단계별 실행 흐름
+- 주요 구성 요소 및 책임
+- 아키텍처 인사이트
+- 읽어야 할 필수 파일 목록
 
 ### `code-architect`
 
-**Purpose**: Designs feature architectures and implementation blueprints
+**목적**: 기능 아키텍처 및 구현 청사진 설계
 
-**Focus areas:**
-- Codebase pattern analysis
-- Architecture decisions
-- Component design
-- Implementation roadmap
-- Data flow and build sequence
+**포커스 영역:**
+- 코드베이스 패턴 분석
+- 아키텍처 결정
+- 컴포넌트 설계
+- 구현 로드맵
+- 데이터 흐름 및 빌드 순서
 
-**When triggered:**
-- Automatically in Phase 4
-- Can be invoked manually for architecture design
+**트리거 시기:**
+- 4단계에서 자동으로
+- 아키텍처 설계를 위해 수동으로 호출 가능
 
-**Output:**
-- Patterns and conventions found
-- Architecture decision with rationale
-- Complete component design
-- Implementation map with specific files
-- Build sequence with phases
+**출력:**
+- 발견된 패턴 및 관습
+- 근거가 있는 아키텍처 결정
+- 완전한 컴포넌트 설계
+- 특정 파일이 있는 구현 맵
+- 단계별 빌드 순서
 
 ### `code-reviewer`
 
-**Purpose**: Reviews code for bugs, quality issues, and project conventions
+**목적**: 버그, 품질 문제, 프로젝트 관습에 대한 코드 리뷰
 
-**Focus areas:**
-- Project guideline compliance (CLAUDE.md)
-- Bug detection
-- Code quality issues
-- Confidence-based filtering (only reports high-confidence issues ≥80)
+**포커스 영역:**
+- 프로젝트 가이드라인 준수 (CLAUDE.md)
+- 버그 감지
+- 코드 품질 문제
+- 신뢰도 기반 필터링 (80 이상 높은 신뢰도 문제만 보고)
 
-**When triggered:**
-- Automatically in Phase 6
-- Can be invoked manually after writing code
+**트리거 시기:**
+- 6단계에서 자동으로
+- 코드 작성 후 수동으로 호출 가능
 
-**Output:**
-- Critical issues (confidence 75-100)
-- Important issues (confidence 50-74)
-- Specific fixes with file:line references
-- Project guideline references
+**출력:**
+- 치명적 문제 (신뢰도 75-100)
+- 중요 문제 (신뢰도 50-74)
+- 파일:라인 참조가 있는 구체적인 수정 사항
+- 프로젝트 가이드라인 참조
 
-## Usage Patterns
+## 사용 패턴
 
-### Full workflow (recommended for new features):
+### 전체 워크플로 (새 기능에 권장):
 ```bash
 /feature-dev Add rate limiting to API endpoints
 ```
 
-Let the workflow guide you through all 7 phases.
+모든 7단계를 통해 워크플로가 안내합니다.
 
-### Manual agent invocation:
+### 수동 에이전트 호출:
 
-**Explore a feature:**
+**기능 탐색:**
 ```
 "Launch code-explorer to trace how authentication works"
 ```
 
-**Design architecture:**
+**아키텍처 설계:**
 ```
 "Launch code-architect to design the caching layer"
 ```
 
-**Review code:**
+**코드 리뷰:**
 ```
 "Launch code-reviewer to check my recent changes"
 ```
 
-## Best Practices
+## 모범 사례
 
-1. **Use the full workflow for complex features**: The 7 phases ensure thorough planning
-2. **Answer clarifying questions thoughtfully**: Phase 3 prevents future confusion
-3. **Choose architecture deliberately**: Phase 4 gives you options for a reason
-4. **Don't skip code review**: Phase 6 catches issues before they reach production
-5. **Read the suggested files**: Phase 2 identifies key files—read them to understand context
+1. **복잡한 기능에는 전체 워크플로 사용**: 7단계가 철저한 계획을 보장
+2. **명확화 질문에 신중하게 답변**: 3단계가 미래의 혼란을 방지
+3. **아키텍처를 신중하게 선택**: 4단계가 이유가 있어 옵션을 제공
+4. **코드 리뷰를 건너뛰지 않기**: 6단계가 프로덕션 전에 문제를 잡아냄
+5. **제안된 파일 읽기**: 2단계가 주요 파일을 식별하므로 컨텍스트를 이해하기 위해 읽기
 
-## When to Use This Plugin
+## 이 플러그인 사용 시기
 
-**Use for:**
-- New features that touch multiple files
-- Features requiring architectural decisions
-- Complex integrations with existing code
-- Features where requirements are somewhat unclear
+**사용:**
+- 여러 파일을 건드리는 새 기능
+- 아키텍처 결정이 필요한 기능
+- 기존 코드와의 복잡한 통합
+- 요구사항이 다소 불명확한 기능
 
-**Don't use for:**
-- Single-line bug fixes
-- Trivial changes
-- Well-defined, simple tasks
-- Urgent hotfixes
+**사용하지 않을 때:**
+- 한 줄 버그 수정
+- 사소한 변경
+- 잘 정의된 단순한 작업
+- 긴급 핫픽스
 
-## Requirements
+## 요구사항
 
-- Claude Code installed
-- Git repository (for code review)
-- Project with existing codebase (workflow assumes existing code to learn from)
+- Claude Code 설치
+- Git 저장소 (코드 리뷰용)
+- 기존 코드베이스가 있는 프로젝트 (워크플로는 학습할 기존 코드를 가정)
 
-## Troubleshooting
+## 문제 해결
 
-### Agents take too long
+### 에이전트가 너무 오래 걸림
 
-**Issue**: Code exploration or architecture agents are slow
+**문제**: 코드 탐색 또는 아키텍처 에이전트가 느림
 
-**Solution**:
-- This is normal for large codebases
-- Agents run in parallel when possible
-- The thoroughness pays off in better understanding
+**해결책**:
+- 대용량 코드베이스에는 정상
+- 에이전트가 가능한 경우 병렬로 실행
+- 철저함이 더 나은 이해로 이어짐
 
-### Too many clarifying questions
+### 너무 많은 명확화 질문
 
-**Issue**: Phase 3 asks too many questions
+**문제**: 3단계에서 너무 많은 질문
 
-**Solution**:
-- Be more specific in your initial feature request
-- Provide context about constraints upfront
-- Say "whatever you think is best" if truly no preference
+**해결책**:
+- 초기 기능 요청을 더 구체적으로
+- 제약 사항에 대한 컨텍스트를 미리 제공
+- 정말 선호도가 없다면 "최선이라고 생각하는 대로"라고 말하기
 
-### Architecture options overwhelming
+### 아키텍처 옵션이 압도적
 
-**Issue**: Too many architecture options in Phase 4
+**문제**: 4단계에서 너무 많은 아키텍처 옵션
 
-**Solution**:
-- Trust the recommendation—it's based on codebase analysis
-- If still unsure, ask for more explanation
-- Pick the pragmatic option when in doubt
+**해결책**:
+- 추천을 신뢰하세요 - 코드베이스 분석에 기반
+- 여전히 불확실하다면 더 많은 설명 요청
+- 의심스러울 때 실용적인 옵션 선택
 
-## Tips
+## 팁
 
-- **Be specific in your feature request**: More detail = fewer clarifying questions
-- **Trust the process**: Each phase builds on the previous one
-- **Review agent outputs**: Agents provide valuable insights about your codebase
-- **Don't skip phases**: Each phase serves a purpose
-- **Use for learning**: The exploration phase teaches you about your own codebase
+- **기능 요청을 구체적으로**: 더 많은 세부 사항 = 더 적은 명확화 질문
+- **과정을 신뢰하기**: 각 단계가 이전 단계를 기반으로 구축
+- **에이전트 출력 검토**: 에이전트가 코드베이스에 대한 귀중한 인사이트 제공
+- **단계 건너뛰지 않기**: 각 단계는 목적이 있음
+- **학습에 사용**: 탐색 단계가 자신의 코드베이스에 대해 가르쳐 줌
 
-## Author
+## 작성자
 
 Sid Bidasaria (sbidasaria@anthropic.com)
 
-## Version
+## 버전
 
 1.0.0

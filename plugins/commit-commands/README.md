@@ -1,225 +1,225 @@
-# Commit Commands Plugin
+# Commit Commands 플러그인
 
-Streamline your git workflow with simple commands for committing, pushing, and creating pull requests.
+커밋, 푸시, 풀 리퀘스트 생성을 위한 간단한 명령어로 git 워크플로를 간소화하세요.
 
-## Overview
+## 개요
 
-The Commit Commands Plugin automates common git operations, reducing context switching and manual command execution. Instead of running multiple git commands, use a single slash command to handle your entire workflow.
+Commit Commands 플러그인은 일반적인 git 작업을 자동화하여 컨텍스트 전환과 수동 명령어 실행을 줄여줍니다. 여러 git 명령어를 실행하는 대신, 단일 슬래시 명령어로 전체 워크플로를 처리하세요.
 
-## Commands
+## 명령어
 
 ### `/commit`
 
-Creates a git commit with an automatically generated commit message based on staged and unstaged changes.
+스테이징된 변경사항과 스테이징되지 않은 변경사항을 기반으로 자동으로 생성된 커밋 메시지로 git 커밋을 생성합니다.
 
-**What it does:**
-1. Analyzes current git status
-2. Reviews both staged and unstaged changes
-3. Examines recent commit messages to match your repository's style
-4. Drafts an appropriate commit message
-5. Stages relevant files
-6. Creates the commit
+**수행 작업:**
+1. 현재 git 상태 분석
+2. 스테이징된 변경사항과 스테이징되지 않은 변경사항 모두 검토
+3. 저장소 스타일에 맞추기 위해 최근 커밋 메시지 검토
+4. 적절한 커밋 메시지 초안 작성
+5. 관련 파일 스테이징
+6. 커밋 생성
 
-**Usage:**
+**사용법:**
 ```bash
 /commit
 ```
 
-**Example workflow:**
+**예시 워크플로:**
 ```bash
-# Make some changes to your code
-# Then simply run:
+# 코드 변경 후
+# 그냥 실행하세요:
 /commit
 
-# Claude will:
-# - Review your changes
-# - Stage the files
-# - Create a commit with an appropriate message
-# - Show you the commit status
+# Claude가 수행:
+# - 변경사항 검토
+# - 파일 스테이징
+# - 적절한 메시지로 커밋 생성
+# - 커밋 상태 표시
 ```
 
-**Features:**
-- Automatically drafts commit messages that match your repo's style
-- Follows conventional commit practices
-- Avoids committing files with secrets (.env, credentials.json)
-- Includes Claude Code attribution in commit message
+**기능:**
+- 저장소 스타일에 맞는 커밋 메시지 자동 초안 작성
+- 관례적인 커밋 관행 준수
+- 시크릿이 포함된 파일 커밋 방지 (.env, credentials.json)
+- 커밋 메시지에 Claude Code 기여 포함
 
 ### `/commit-push-pr`
 
-Complete workflow command that commits, pushes, and creates a pull request in one step.
+한 번에 커밋, 푸시, 풀 리퀘스트 생성을 처리하는 완전한 워크플로 명령어입니다.
 
-**What it does:**
-1. Creates a new branch (if currently on main)
-2. Stages and commits changes with an appropriate message
-3. Pushes the branch to origin
-4. Creates a pull request using `gh pr create`
-5. Provides the PR URL
+**수행 작업:**
+1. 새 브랜치 생성 (현재 main에 있는 경우)
+2. 적절한 메시지로 변경사항 스테이징 및 커밋
+3. origin에 브랜치 푸시
+4. `gh pr create`를 사용하여 풀 리퀘스트 생성
+5. PR URL 제공
 
-**Usage:**
+**사용법:**
 ```bash
 /commit-push-pr
 ```
 
-**Example workflow:**
+**예시 워크플로:**
 ```bash
-# Make your changes
-# Then run:
+# 변경사항 완성 후
+# 실행하세요:
 /commit-push-pr
 
-# Claude will:
-# - Create a feature branch (if needed)
-# - Commit your changes
-# - Push to remote
-# - Open a PR with summary and test plan
-# - Give you the PR URL to review
+# Claude가 수행:
+# - 피처 브랜치 생성 (필요한 경우)
+# - 변경사항 커밋
+# - 리모트에 푸시
+# - 요약 및 테스트 계획이 포함된 PR 생성
+# - 검토할 PR URL 제공
 ```
 
-**Features:**
-- Analyzes all commits in the branch (not just the latest)
-- Creates comprehensive PR descriptions with:
-  - Summary of changes (1-3 bullet points)
-  - Test plan checklist
-  - Claude Code attribution
-- Handles branch creation automatically
-- Uses GitHub CLI (`gh`) for PR creation
+**기능:**
+- 브랜치의 모든 커밋 분석 (최신 커밋만이 아닌)
+- 다음을 포함한 포괄적인 PR 설명 생성:
+  - 변경사항 요약 (1-3개의 불릿 포인트)
+  - 테스트 계획 체크리스트
+  - Claude Code 기여
+- 브랜치 생성 자동 처리
+- PR 생성에 GitHub CLI (`gh`) 사용
 
-**Requirements:**
-- GitHub CLI (`gh`) must be installed and authenticated
-- Repository must have a remote named `origin`
+**요구사항:**
+- GitHub CLI (`gh`)가 설치되고 인증되어 있어야 합니다
+- 저장소에 `origin`이라는 이름의 리모트가 있어야 합니다
 
 ### `/clean_gone`
 
-Cleans up local branches that have been deleted from the remote repository.
+리모트 저장소에서 삭제된 로컬 브랜치를 정리합니다.
 
-**What it does:**
-1. Lists all local branches to identify [gone] status
-2. Identifies and removes worktrees associated with [gone] branches
-3. Deletes all branches marked as [gone]
-4. Provides feedback on removed branches
+**수행 작업:**
+1. 모든 로컬 브랜치를 나열하여 [gone] 상태 식별
+2. [gone] 브랜치와 관련된 워크트리를 식별하고 제거
+3. [gone]으로 표시된 모든 브랜치 삭제
+4. 제거된 브랜치에 대한 피드백 제공
 
-**Usage:**
+**사용법:**
 ```bash
 /clean_gone
 ```
 
-**Example workflow:**
+**예시 워크플로:**
 ```bash
-# After PRs are merged and remote branches are deleted
+# PR이 병합되고 리모트 브랜치가 삭제된 후
 /clean_gone
 
-# Claude will:
-# - Find all branches marked as [gone]
-# - Remove any associated worktrees
-# - Delete the stale local branches
-# - Report what was cleaned up
+# Claude가 수행:
+# - [gone]으로 표시된 모든 브랜치 찾기
+# - 관련 워크트리 제거
+# - 오래된 로컬 브랜치 삭제
+# - 정리된 내용 보고
 ```
 
-**Features:**
-- Handles both regular branches and worktree branches
-- Safely removes worktrees before deleting branches
-- Shows clear feedback about what was removed
-- Reports if no cleanup was needed
+**기능:**
+- 일반 브랜치와 워크트리 브랜치 모두 처리
+- 브랜치 삭제 전 워크트리를 안전하게 제거
+- 제거된 항목에 대한 명확한 피드백 표시
+- 정리가 필요 없는 경우 보고
 
-**When to use:**
-- After merging and deleting remote branches
-- When your local branch list is cluttered with stale branches
-- During regular repository maintenance
+**사용 시기:**
+- PR 병합 및 리모트 브랜치 삭제 후
+- 로컬 브랜치 목록이 오래된 브랜치로 가득찬 경우
+- 정기적인 저장소 유지 관리 중
 
-## Installation
+## 설치
 
-This plugin is included in the Claude Code repository. The commands are automatically available when using Claude Code.
+이 플러그인은 Claude Code 저장소에 포함되어 있습니다. Claude Code 사용 시 명령어가 자동으로 사용 가능합니다.
 
-## Best Practices
+## 모범 사례
 
-### Using `/commit`
-- Review the staged changes before committing
-- Let Claude analyze your changes and match your repo's commit style
-- Trust the automated message, but verify it's accurate
-- Use for routine commits during development
+### `/commit` 사용
+- 커밋 전 스테이징된 변경사항 검토
+- Claude가 변경사항을 분석하고 저장소 커밋 스타일에 맞추도록 허용
+- 자동 생성된 메시지를 신뢰하되, 정확성 확인
+- 개발 중 일상적인 커밋에 사용
 
-### Using `/commit-push-pr`
-- Use when you're ready to create a PR
-- Ensure all your changes are complete and tested
-- Claude will analyze the full branch history for the PR description
-- Review the PR description and edit if needed
-- Use when you want to minimize context switching
+### `/commit-push-pr` 사용
+- PR을 생성할 준비가 되었을 때 사용
+- 모든 변경사항이 완성되고 테스트되었는지 확인
+- Claude가 PR 설명을 위해 전체 브랜치 히스토리를 분석
+- PR 설명을 검토하고 필요에 따라 수정
+- 컨텍스트 전환을 최소화하고 싶을 때 사용
 
-### Using `/clean_gone`
-- Run periodically to keep your branch list clean
-- Especially useful after merging multiple PRs
-- Safe to run - only removes branches already deleted remotely
-- Helps maintain a tidy local repository
+### `/clean_gone` 사용
+- 브랜치 목록을 깔끔하게 유지하기 위해 주기적으로 실행
+- 여러 PR 병합 후 특히 유용
+- 안전하게 실행 가능 - 이미 리모트에서 삭제된 브랜치만 제거
+- 깔끔한 로컬 저장소 유지에 도움
 
-## Workflow Integration
+## 워크플로 통합
 
-### Quick commit workflow:
+### 빠른 커밋 워크플로:
 ```bash
-# Write code
+# 코드 작성
 /commit
-# Continue development
+# 개발 계속
 ```
 
-### Feature branch workflow:
+### 피처 브랜치 워크플로:
 ```bash
-# Develop feature across multiple commits
-/commit  # First commit
-# More changes
-/commit  # Second commit
-# Ready to create PR
+# 여러 커밋에 걸쳐 기능 개발
+/commit  # 첫 번째 커밋
+# 추가 변경사항
+/commit  # 두 번째 커밋
+# PR 생성 준비 완료
 /commit-push-pr
 ```
 
-### Maintenance workflow:
+### 유지 관리 워크플로:
 ```bash
-# After several PRs are merged
+# 여러 PR이 병합된 후
 /clean_gone
-# Clean workspace ready for next feature
+# 다음 기능을 위한 깔끔한 작업 공간 준비
 ```
 
-## Requirements
+## 요구사항
 
-- Git must be installed and configured
-- For `/commit-push-pr`: GitHub CLI (`gh`) must be installed and authenticated
-- Repository must be a git repository with a remote
+- Git이 설치되고 구성되어 있어야 합니다
+- `/commit-push-pr` 사용 시: GitHub CLI (`gh`)가 설치되고 인증되어 있어야 합니다
+- 저장소가 리모트가 있는 git 저장소여야 합니다
 
-## Troubleshooting
+## 문제 해결
 
-### `/commit` creates empty commit
+### `/commit`이 빈 커밋 생성
 
-**Issue**: No changes to commit
+**문제**: 커밋할 변경사항 없음
 
-**Solution**:
-- Ensure you have unstaged or staged changes
-- Run `git status` to verify changes exist
+**해결책**:
+- 스테이징되지 않은 변경사항이나 스테이징된 변경사항이 있는지 확인
+- `git status`를 실행하여 변경사항 존재 확인
 
-### `/commit-push-pr` fails to create PR
+### `/commit-push-pr`이 PR 생성 실패
 
-**Issue**: `gh pr create` command fails
+**문제**: `gh pr create` 명령어 실패
 
-**Solution**:
-- Install GitHub CLI: `brew install gh` (macOS) or see [GitHub CLI installation](https://cli.github.com/)
-- Authenticate: `gh auth login`
-- Ensure repository has a GitHub remote
+**해결책**:
+- GitHub CLI 설치: `brew install gh` (macOS) 또는 [GitHub CLI 설치](https://cli.github.com/) 참조
+- 인증: `gh auth login`
+- 저장소에 GitHub 리모트가 있는지 확인
 
-### `/clean_gone` doesn't find branches
+### `/clean_gone`이 브랜치를 찾지 못함
 
-**Issue**: No branches marked as [gone]
+**문제**: [gone]으로 표시된 브랜치 없음
 
-**Solution**:
-- Run `git fetch --prune` to update remote tracking
-- Branches must be deleted from the remote to show as [gone]
+**해결책**:
+- `git fetch --prune`을 실행하여 리모트 추적 업데이트
+- 브랜치가 [gone]으로 표시되려면 리모트에서 삭제되어야 함
 
-## Tips
+## 팁
 
-- **Combine with other tools**: Use `/commit` during development, then `/commit-push-pr` when ready
-- **Let Claude draft messages**: The commit message analysis learns from your repo's style
-- **Regular cleanup**: Run `/clean_gone` weekly to maintain a clean branch list
-- **Review before pushing**: Always review the commit message and changes before pushing
+- **다른 도구와 함께 사용**: 개발 중에 `/commit`을 사용하고, 준비되면 `/commit-push-pr` 사용
+- **Claude가 메시지를 초안 작성하도록**: 커밋 메시지 분석이 저장소 스타일을 학습
+- **정기적으로 정리**: 깔끔한 브랜치 목록을 유지하기 위해 주간으로 `/clean_gone` 실행
+- **푸시 전 검토**: 항상 커밋 메시지와 변경사항을 검토한 후 푸시
 
-## Author
+## 작성자
 
 Anthropic (support@anthropic.com)
 
-## Version
+## 버전
 
 1.0.0
